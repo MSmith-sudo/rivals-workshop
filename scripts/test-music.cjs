@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),Module=require('node:module'),ts=require('typescript');
+const file=path.resolve(__dirname,'../src/musicState.ts'),m=new Module(file,module);m._compile(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,file);
+const {blankMusic,decodeMusic,safeLink,dossier}=m.exports;
+const s=blankMusic();s.stage=3;s.songs[0]={title:'Thunder',source:'Me',url:'javascript:alert(1)',tags:['Chaotic'],scene:'<script>literal text</script>',reason:'My dramatic entrance',skipped:false};s.connections='My Chapter 1 story';
+assert.deepEqual(decodeMusic(JSON.stringify(s)),s);
+for(const link of ['javascript:alert(1)','data:text/html,hi','file:///x','https://user:password@example.com','//example.com','not a url'])assert.equal(safeLink(link),null);
+assert.equal(safeLink('https://example.com/a'),'https://example.com/a');assert.equal(safeLink('http://example.com'),'http://example.com/');
+let profile=dossier(s,'Player');assert.equal(profile.themes[0].url,null);assert.equal(profile.themes[0].scene,s.songs[0].scene);
+s.songs[0].skipped=true;assert.equal(dossier(s,'Player').themes[0].scene,undefined);assert.equal(decodeMusic(JSON.stringify(s)).songs[0].title,'Thunder');
+s.behindSkipped=true;assert.equal(dossier(s,'Player').behindTheMusic.priorChapterConnections,undefined);
+const d=decodeMusic(JSON.stringify({...s,stage:99,consent:{aiPartner:true,teamChemistry:true},reflection:'x'.repeat(4000)}));assert.deepEqual(d.consent,{aiPartner:false,teamChemistry:false});assert.equal(d.stage,4);assert.equal(d.reflection.length,3000);
+assert.throws(()=>decodeMusic('{'));assert.throws(()=>decodeMusic(JSON.stringify({...s,version:2})));assert.throws(()=>decodeMusic(JSON.stringify({...s,contentVersion:'future'})));assert.throws(()=>decodeMusic(JSON.stringify({...s,songs:[]})));
+console.log('Chapter 6 checks passed: roundtrip, safe links, retained skips, export exclusion, consent reset, limits and unknown-version rejection.');

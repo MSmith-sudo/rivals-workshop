@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {createServer,validateRequest,parseReply,providerReply} from '../server/companion.mjs';
+const d={consent:true,history:[],tone:'mentor',question:'Help',evidence:[{id:'E1',chapter:1,path:'preferred',label:'Preferred role',text:'vanguard'}]};
+assert.deepEqual(validateRequest(d),d);assert.throws(()=>validateRequest({...d,tone:'evil'}));assert.throws(()=>validateRequest({...d,evidence:[d.evidence[0],d.evidence[0]]}));assert.throws(()=>parseReply('{"text":"Hi","citations":["E99"]}',d.evidence));
+let body;const fake=async(url,options)=>{body=JSON.parse(options.body);assert.ok(options.headers.Authorization);assert.match(url,/responses$/);return {ok:true,json:async()=>({output:[{content:[{type:'output_text',text:JSON.stringify({text:'Your selected role [E1] gives us a starting point.',citations:['E1']})}]}]})};};
+const reply=await providerReply(d,{AI_PROVIDER:'openai',AI_MODEL:'test-model',AI_API_KEY:'test-only'},fake);assert.equal(reply.origin,'provider');assert.equal(body.store,false);assert.ok(!JSON.stringify(body).includes('nickname'));await assert.rejects(()=>providerReply(d,{AI_PROVIDER:'offline'}));
+const compatible=await providerReply(d,{AI_PROVIDER:'compatible',AI_MODEL:'test',AI_API_KEY:'test',AI_BASE_URL:'https://example.test/v1'},async(url,o)=>{assert.match(url,/chat\/completions$/);assert.equal(JSON.parse(o.body).messages.length,2);return {ok:true,json:async()=>({choices:[{message:{content:'{"text":"Reflection [E1]","citations":["E1"]}'}}]})};});assert.equal(compatible.provider,'compatible');
+const server=createServer({AI_PROVIDER:'offline',APP_ORIGIN:'http://test.local'});await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const url=`http://127.0.0.1:${server.address().port}/api/companion`;
+try{assert.equal((await fetch(url,{method:'POST'})).status,403);const post=body=>fetch(url,{method:'POST',headers:{Origin:'http://test.local','Content-Type':'application/json'},body});assert.equal((await post('{bad')).status,400);assert.equal((await post(JSON.stringify(d))).status,503);assert.equal((await post(' '.repeat(256001))).status,413);for(let i=0;i<8;i++)await post(JSON.stringify(d));assert.equal((await post(JSON.stringify(d))).status,429);}finally{await new Promise(resolve=>server.close(resolve));}
+console.log('Proxy checks passed: real HTTP validation, origin, size/rate limits, offline fallback, mocked provider adapters, storage disabled, citation rejection. No live AI calls.');
+
+

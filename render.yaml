@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: rivals-workshop-beta
+    runtime: node
+    plan: starter
+    numInstances: 1
+    buildCommand: npm ci --include=dev && npm run build:beta
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: NODE_ENV
+        value: production
+      - key: VITE_CLOSED_BETA
+        value: "true"
+      - key: BETA_USERS
+        sync: false
+      - key: AI_PROVIDER
+        value: offline
+      - key: BETA_REQUESTS_PER_MINUTE
+        value: "10"
+      - key: BETA_REQUESTS_PER_DAY
+        value: "100"
+      - key: BETA_GLOBAL_REQUESTS_PER_DAY
+        value: "500"
+      - key: BETA_MAX_CONCURRENT
+        value: "2"

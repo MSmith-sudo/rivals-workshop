@@ -1,0 +1,22 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),Module=require('node:module'),ts=require('typescript');
+const cache=new Map();function load(name){const file=path.resolve(__dirname,'../src',name+'.ts');if(cache.has(file))return cache.get(file).exports;const m=new Module(file,module);m.filename=file;m.paths=module.paths;cache.set(file,m);m.require=id=>id.startsWith('./')?load(id.slice(2)):require(id);m._compile(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,file);return m.exports;}
+const state=load('combatState'),engine=load('combatEngine'),content=load('combatContent'),mind=load('mindState');
+const event=(i,id)=>({nodeId:content.nodeList[i].node.id,actionId:id,cue:content.nodeList[i].node.cues[0],rationale:'',at:'2026-10-10'});
+const draft={nodeId:'flank-watch',actionId:'prepare',cue:content.nodeList[0].node.cues[0],rationale:'My unfinished reasoning'};
+let a={...state.blankCombat(),runs:[state.createRun(null,'',1,'a'),state.createRun(null,'',2,'b')],draft};
+a=state.selectRun(a,1);assert.equal(a.draft.rationale,'');a.draft={...draft,rationale:'Second draft'};a=state.selectRun(a,0);assert.deepEqual(a.draft,draft);
+a=state.decodeCombat(JSON.stringify(a));assert.equal(state.selectRun(a,1).draft.rationale,'Second draft');
+const imported=state.decodeCombat(JSON.stringify({...state.blankCombat(),runs:[state.createRun(null,'',3,'c')],draft:{...draft,rationale:'Imported draft'}}));
+const merged=state.mergeBackup(a,imported);assert.equal(merged.draft.rationale,'Imported draft');assert.equal(state.selectRun(merged,0).draft.rationale,draft.rationale);assert.equal(state.selectRun(merged,1).draft.rationale,'Second draft');
+assert.throws(()=>state.mergeBackup(a,a),/No new run IDs/);
+const legacy={...state.blankCombat(),runs:[state.createRun(null,'',1,'legacy')],draft};assert.deepEqual(state.decodeCombat(JSON.stringify(legacy)).draft,draft);
+assert.equal(state.savingPaused(false,''),true);assert.equal(state.savingPaused(false,null),false);
+assert.equal(state.createRun('{bad','',1,'invalid').hasBriefing,false);assert.equal(state.createRun('{"version":99}','',1,'future').hasBriefing,false);
+const briefing=mind.blankMind();briefing.weakest='pressure';assert(state.focusDossier(state.createRun(JSON.stringify(briefing),'',1,'brief')).includes('pressure'));
+const committed=state.commit({...state.blankCombat(),runs:[state.createRun(null,'',1,'commit')]},event(0,'prepare'));assert.equal(state.decodeCombat(JSON.stringify(committed)).pendingResults.commit,true);
+const skipReceipts=engine.replay(content.nodeList.map((n,i)=>({...event(i,'skip'),cue:''})),1).receipts;assert(skipReceipts.filter(r=>r.ending).every(r=>r.ending.startsWith('Incomplete encounter')));assert(engine.score(skipReceipts).every(r=>r.index===null));
+const mixed=engine.replay([event(0,'prepare'),{...event(1,'skip'),cue:''},event(2,'reset')],1);assert(mixed.receipts[2].ending.startsWith('Incomplete encounter'));assert(mixed.receipts[0].marks.length);
+const low={...engine.initialBattle(),readiness:0};const shown=engine.adjustedNode(8,low).options.find(o=>o.id==='reset');assert.deepEqual(shown.marks,engine.applyDecision(8,low,event(8,'reset'),1).marks);assert(shown.marks.every(m=>m.value===2));
+const source=fs.readFileSync(path.resolve(__dirname,'../src/ChapterFour.tsx'),'utf8');assert(source.includes('adjustedNode(index,receipt.before).options'));assert(source.includes('score(newEvidence(run,state.receipts))'));
+const rehearsal={...state.createRun(null,'',1,'practice','rehearsal'),forkAt:3};assert.deepEqual(engine.score(state.newEvidence(rehearsal,mixed.receipts)).map(r=>r.index),Array(10).fill(null));
+console.log('Review regression checks passed: draft migration/switch/import isolation, pending feedback, deleted-save conflicts, valid briefings, weakest claim, skip outcomes, branch-aware alternatives, rehearsal evidence.');

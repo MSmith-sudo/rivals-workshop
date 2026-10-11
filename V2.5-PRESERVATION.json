@@ -1,0 +1,112 @@
+{
+  "source": "Rivals-Beta.zip",
+  "byteIdenticalFiles": [
+    {
+      "file": "src/chapterState.ts",
+      "unchanged": true,
+      "sha256": "0a624f7b8ac3174fc736680b65d0bd9cf7ea3e892a5280713b61a8c73ceff8ff"
+    },
+    {
+      "file": "src/courtState.ts",
+      "unchanged": true,
+      "sha256": "31afeed53982ac2feec014183eae219eaa5488fd613e19c54889d6b85a47463b"
+    },
+    {
+      "file": "src/mindState.ts",
+      "unchanged": true,
+      "sha256": "96769931a3898f407eb42386f0c1a25a6bdcd1e0ad75ead65bd1b9457f869d54"
+    },
+    {
+      "file": "src/combatState.ts",
+      "unchanged": true,
+      "sha256": "1466063202a734c90f8b6055f081485708e57c39e7c08e41e6b67eee6cb0f47b"
+    },
+    {
+      "file": "src/combatEngine.ts",
+      "unchanged": true,
+      "sha256": "23d042b6e59a7436fd5f38d846d584dc4c60338a6e39be35bbf37cb46a1f0bf7"
+    },
+    {
+      "file": "src/combatContent.ts",
+      "unchanged": true,
+      "sha256": "2b35e7d374393230203903717fa3c69262e5bf087df3b6ce9faf3d2e4101a04b"
+    },
+    {
+      "file": "src/socialState.ts",
+      "unchanged": true,
+      "sha256": "dee5015ab1119d9cf7618d0b8b5f6b48f8343bddeaac9ea01d73feb3ee5ef0ae"
+    },
+    {
+      "file": "src/musicState.ts",
+      "unchanged": true,
+      "sha256": "955c0a887dcc25abf693fdd6804ad7968910a7e02ce38600c3debee5760e774f"
+    },
+    {
+      "file": "src/judgmentState.ts",
+      "unchanged": true,
+      "sha256": "d370d2247c1b541416b75ac5425d0125c49556f7994673735524a0a4f25366b6"
+    },
+    {
+      "file": "src/profileStore.ts",
+      "unchanged": true,
+      "sha256": "fb79efd7c97a2b6e35d12fe617fa72a9fb884528ed75b97ac05b2d38b58201a3"
+    },
+    {
+      "file": "src/saveRecovery.ts",
+      "unchanged": true,
+      "sha256": "a282507ee07b8c037cffc1b33f69ae49ddfbb3102f476672a23f3c3a452712a5"
+    },
+    {
+      "file": "src/conversationStore.ts",
+      "unchanged": true,
+      "sha256": "eb75c5c760939a96216f9b44b0dfb4e887aa3ae0b55c5ae12154d6805817dc8d"
+    },
+    {
+      "file": "src/writingState.ts",
+      "unchanged": true,
+      "sha256": "7f62f27ad922d24655cd4e7fbfb0c2ba7d204a57d22dc7ff5cd3f5dc1b3b3c55"
+    },
+    {
+      "file": "src/creativeState.ts",
+      "unchanged": true,
+      "sha256": "a0a5bd0b0035c5ff9cb83425562e7693911235c1b9319db8db8177f10c97d79c"
+    },
+    {
+      "file": "src/narrativeState.ts",
+      "unchanged": true,
+      "sha256": "a0ee6f18481563d20da0a3701307d910d0fe28d58c647ad80369b471ba4a7af6"
+    },
+    {
+      "file": "server/beta.mjs",
+      "unchanged": true,
+      "sha256": "c5e50a5aa0f87736fe3e816c8a1b5158e406ca3915ff08423abd559fc2753272"
+    },
+    {
+      "file": "server/music.mjs",
+      "unchanged": true,
+      "sha256": "2a434c238bb4adfd89e3f9a745e41f901f4e2ee554f2ed2595698cc3095c6ee6"
+    },
+    {
+      "file": "server/companion.mjs",
+      "unchanged": true,
+      "sha256": "c493cb8fbc2d4ce11f42e4d162b0c86b4bdb39b41f88f1ad21e8bbce2e5aa3cd"
+    },
+    {
+      "file": "schemas/library-v2.schema.json",
+      "unchanged": true,
+      "sha256": "56dbdedc211481205056512be6a1565d219014ea8a2ce3dd3721770102213b54"
+    },
+    {
+      "file": "schemas/library-v3.schema.json",
+      "unchanged": true,
+      "sha256": "9ef8dd425f2d929cc3b6d8b0b1d3dc11bb383ee5079a9e9f65db5461721aa83e"
+    },
+    {
+      "file": "render.yaml",
+      "unchanged": true,
+      "sha256": "6119d0470a66f6a58892cd33fe0d11770bc1c63299dd26c26a886d689e40b700"
+    }
+  ],
+  "backendChange": "server/service.mjs: only adds manifest/JSON MIME mappings; provider, authentication, validation and quotas unchanged",
+  "presentationChanges": "Chapter views, main routing, Companion, mobile shell, scenario decks, portrait registry, sharing and PWA"
+}

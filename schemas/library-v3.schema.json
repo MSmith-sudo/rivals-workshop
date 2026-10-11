@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rivals Workshop Player Vault version 3",
+  "type": "object",
+  "required": [
+    "schema",
+    "version",
+    "migrated",
+    "profiles",
+    "revision"
+  ],
+  "properties": {
+    "schema": {
+      "const": "rivals-workshop.library"
+    },
+    "version": {
+      "const": 3
+    },
+    "migrated": {
+      "type": "boolean"
+    },
+    "profiles": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "$ref": "#/$defs/profile"
+      }
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "$defs": {
+    "chapters": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 300000
+      }
+    },
+    "profile": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "created",
+        "updated",
+        "consent",
+        "original",
+        "chapters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "consent": {
+          "type": "object",
+          "required": [
+            "team"
+          ],
+          "properties": {
+            "team": {
+              "type": "boolean"
+            }
+          }
+        },
+        "original": {
+          "$ref": "#/$defs/chapters"
+        },
+        "chapters": {
+          "$ref": "#/$defs/chapters"
+        },
+        "titles": {
+          "type": "object",
+          "required": [
+            "origin",
+            "fingerprint",
+            "items",
+            "receipts"
+          ],
+          "properties": {
+            "origin": {
+              "enum": [
+                "ai",
+                "local",
+                "edited"
+              ]
+            },
+            "fingerprint": {
+              "type": "string",
+              "maxLength": 99
+            },
+            "items": {
+              "type": "object",
+              "required": [
+                "archetype",
+                "secondary",
+                "social",
+                "team"
+              ],
+              "properties": {
+                "archetype": {
+                  "$ref": "#/$defs/titleItem"
+                },
+                "secondary": {
+                  "$ref": "#/$defs/titleItem"
+                },
+                "social": {
+                  "$ref": "#/$defs/titleItem"
+                },
+                "team": {
+                  "$ref": "#/$defs/titleItem"
+                }
+              }
+            },
+            "receipts": {
+              "type": "array",
+              "maxItems": 200,
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "chapter",
+                  "path",
+                  "label",
+                  "text"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^E[1-9][0-9]*$"
+                  },
+                  "chapter": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6
+                  },
+                  "path": {
+                    "type": "string",
+                    "maxLength": 12000
+                  },
+                  "label": {
+                    "type": "string",
+                    "maxLength": 12000
+                  },
+                  "text": {
+                    "type": "string",
+                    "maxLength": 12000
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "titleItem": {
+      "type": "object",
+      "required": [
+        "title",
+        "explanation"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "explanation": {
+          "type": "string",
+          "maxLength": 600
+        }
+      }
+    }
+  }
+}

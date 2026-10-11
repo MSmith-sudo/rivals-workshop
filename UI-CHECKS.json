@@ -1,0 +1,298 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "route": "#main",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 1440,
+      "route": "#chapter-1",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 1440,
+      "route": "#chapter-2",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 1440,
+      "stage": 0,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 1440,
+      "stage": 1,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 1440,
+      "stage": 2,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 1440,
+      "stage": 3,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 1440,
+      "stage": 4,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 1440,
+      "stage": 5,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "route": "#main",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "route": "#chapter-1",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "route": "#chapter-2",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "stage": 0,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "stage": 1,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "stage": 2,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "stage": 3,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "stage": 4,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 768,
+      "stage": 5,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "route": "#main",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "route": "#chapter-1",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "route": "#chapter-2",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "stage": 0,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "stage": 1,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "stage": 2,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "stage": 3,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "stage": 4,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 390,
+      "stage": 5,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "route": "#main",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "route": "#chapter-1",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "route": "#chapter-2",
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "stage": 0,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "stage": 1,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "stage": 2,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "stage": 3,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "stage": 4,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    },
+    {
+      "width": 320,
+      "stage": 5,
+      "overflow": false,
+      "unlabeled": [],
+      "missingAlt": 0,
+      "mainCount": 1
+    }
+  ],
+  "errors": [],
+  "persistence": true,
+  "isolatedSaves": true,
+  "keyboardFocus": true,
+  "migration": true,
+  "storageFailure": true
+}

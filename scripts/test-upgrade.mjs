@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {createServer,providerReply,parseReply,validateRequest} from '../server/service.mjs';
+import {youtubeURL,thumbnail,musicMetadata} from '../server/music.mjs';
+const video='dQw4w9WgXcQ',url='https://www.youtube.com/watch?v='+video;
+for(const link of [url,'https://youtu.be/'+video,'https://music.youtube.com/watch?v='+video,'https://www.youtube.com/shorts/'+video,'https://www.youtube.com/embed/'+video])assert.equal(youtubeURL(link),url);
+for(const link of ['http://youtube.com/watch?v='+video,'https://youtube.com.evil.test/watch?v='+video,'https://youtube.com@127.0.0.1/watch?v='+video,'https://127.0.0.1/','https://youtube.com:444/watch?v='+video,'https://youtube.com/watch?v=short','file:///etc/passwd','https://youtu.be/'+video+'/extra'])assert.equal(youtubeURL(link),null);
+assert.equal(thumbnail('https://evil.test/image.png'),null);
+let calls=0;const transport=async(endpoint,options)=>{calls++;assert.equal(new URL(endpoint).hostname,'www.youtube.com');assert.equal(new URL(endpoint).pathname,'/oembed');assert.equal(new URL(endpoint).searchParams.get('url'),url);assert.equal(options.redirect,'error');return new Response(JSON.stringify({title:'Real platform title',author_name:'Real uploader',thumbnail_url:'https://i.ytimg.com/vi/'+video+'/hqdefault.jpg',html:'<iframe autoplay src="evil"></iframe>'}));};
+await assert.rejects(()=>musicMetadata({url,consent:false},transport));assert.equal(calls,0);
+await assert.rejects(()=>musicMetadata({url:'https://localhost/secret',consent:true},transport));assert.equal(calls,0);
+const metadata=await musicMetadata({url:url+'&tracking=ignored',consent:true},transport);assert.equal(metadata.title,'Real platform title');assert.ok(!('html' in metadata));assert.ok(metadata.thumbnail);assert.equal(calls,1);
+await assert.rejects(()=>musicMetadata({url,consent:true},async()=>new Response('x'.repeat(33000))),e=>e.status===503);
+await assert.rejects(()=>musicMetadata({url,consent:true},async()=>{throw Error('private network failure')}),e=>e.status===503&&!e.message.includes('private network'));
+const evidence=[{id:'E1',chapter:1,label:'My story',path:'draft',text:'I like protecting friends, but sometimes tunnel vision.'}],base={tone:'hangout',question:'Hey, can we brainstorm?',evidence,history:[],consent:true},env={AI_PROVIDER:'gemini',GEMINI_API_KEY:'test-secret'};
+const fake=(text,citations=[])=>async(endpoint,o)=>{const b=JSON.parse(o.body);assert.match(b.systemInstruction.parts[0].text,/warm, witty/);assert.match(b.systemInstruction.parts[0].text,/Don't force a scenario breakdown/);assert.ok(!JSON.stringify(b).includes('test-secret'));return new Response(JSON.stringify({candidates:[{content:{parts:[{text:JSON.stringify({text,citations})}]}}]}));};
+assert.equal((await providerReply({...base,evidence:[]},env,fake('Absolutely. What vibe are you after?'))).text,'Absolutely. What vibe are you after?');
+assert.throws(()=>parseReply(JSON.stringify({text:'Fake claim [E2]',citations:['E2']}),evidence));
+const writing={...base,task:'writing',action:'rewrite',draft:evidence[0].text,limit:2000};assert.equal(validateRequest(writing).draft,writing.draft);assert.throws(()=>validateRequest({...writing,limit:9000}));assert.throws(()=>validateRequest({...writing,action:'overwrite'}));assert.throws(()=>validateRequest({...writing,consent:false}));
+const rewritten='I like being there for my friends. Sometimes I lose the bigger picture.';assert.equal((await providerReply(writing,env,fake(rewritten))).text,rewritten);assert.equal(writing.draft,evidence[0].text);
+await assert.rejects(()=>providerReply({...writing,limit:5},env,fake(rewritten)),e=>e.status===502);
+const items=Object.fromEntries(['archetype','secondary','social','team'].map(k=>[k,{title:'The Lantern With Tunnel Vision',explanation:'Your protectiveness and uncertainty inspired this [E1]'}]));assert.deepEqual(JSON.parse((await providerReply({...base,task:'titles'},env,fake(JSON.stringify(items),['E1']))).text),items);
+await assert.rejects(()=>providerReply({...base,task:'titles'},env,fake('invalid')),e=>e.status===502);
+await assert.rejects(()=>providerReply({...base,task:'titles'},env,fake(JSON.stringify({...items,team:{title:'x'.repeat(81),explanation:'[E1]'}}),['E1'])),e=>e.status===502);
+const server=createServer({APP_ORIGIN:'http://test.local'},transport);await new Promise(r=>server.listen(0,'127.0.0.1',r));const endpoint='http://127.0.0.1:'+server.address().port+'/api/music';try{assert.equal((await fetch(endpoint,{method:'POST'})).status,403);const post=body=>fetch(endpoint,{method:'POST',headers:{Origin:'http://test.local','Content-Type':'application/json'},body:JSON.stringify(body)});assert.equal((await post({url,consent:false})).status,400);assert.equal((await post({url,consent:true})).status,200);}finally{await new Promise(r=>server.close(r));}
+console.log('V2.2 server checks passed: fluid chat, isolated writing tasks, title shape/length/provenance, empty generic chat, consent, fixed YouTube endpoint, SSRF inputs, size bounds, no embed HTML. Mocked providers only.');

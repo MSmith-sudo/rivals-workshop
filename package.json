@@ -1,0 +1,33 @@
+{
+  "name": "rivals-workshop",
+  "private": true,
+  "version": "2.5.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --configLoader native --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build --configLoader native && node scripts/build-offline.cjs",
+    "preview": "vite preview --configLoader native --host 127.0.0.1",
+    "test": "node scripts/test-state.cjs && node scripts/test-mind.cjs && node scripts/test-combat.cjs && node scripts/test-review.cjs && node scripts/test-social.cjs && node scripts/test-music.cjs && node scripts/test-judgment.cjs && node scripts/test-profiles.cjs && node scripts/test-proxy.mjs && node scripts/test-vault.cjs && node scripts/test-gemini.mjs && node scripts/test-upgrade.mjs && node scripts/test-creative.cjs && node scripts/test-polish.cjs && node scripts/test-beta.cjs",
+    "typecheck": "tsc --noEmit",
+    "server": "node --env-file-if-exists=.env.server server/companion.mjs",
+    "start": "node server/companion.mjs",
+    "build:beta": "node scripts/build-beta.mjs",
+    "test:beta-security": "node scripts/test-beta-security.mjs",
+    "beta:user": "node scripts/beta-user.mjs",
+    "test:mobile": "node scripts/test-mobile.cjs"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=22.18.0 <25"
+  }
+}

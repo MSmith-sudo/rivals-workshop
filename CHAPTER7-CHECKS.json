@@ -1,0 +1,8 @@
+{
+  "chapter": 7,
+  "source": "rivals-workshop-chapter-6.zip from referenced conversation attachment",
+  "rulesVersion": "judgment-1",
+  "automated": ["all existing suites", "12 archetype fixtures", "determinism", "corrupt and unsupported saves", "baseline and rehearsal isolation", "skip exclusion", "free text and music scoring invariance", "private exports", "V2 consent defaults"],
+  "browser": ["homepage has seven working chapter links", "empty evidence reveal", "replay reveal", "integrated dossier", "export controls unchecked", "heading focus after section changes", "semantic comparison table", "desktop screenshot", "390x844 viewport", "no body horizontal overflow", "comparison table scroll confined to its container", "no warning/error console logs"],
+  "limitations": ["No observed matches", "No live AI", "No assistive-technology audit", "Offline shell retained from the source app; Chapter 7 has no network dependencies"]
+}

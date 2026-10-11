@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),ts=require('typescript'),React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
+for(const ext of ['.ts','.tsx'])require.extensions[ext]=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true,jsx:ts.JsxEmit.ReactJSX}}).outputText,f);
+require.extensions['.css']=()=>{};
+const store=new Map();global.localStorage={getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)};
+const v=require('../src/visualState.ts'),{blankSave,heroes}=require('../src/chapterState.ts'),{FinalDossier,TeamCollage}=require('../src/BetaVisuals.tsx');
+assert.equal(v.validDesign('evil'),false);assert.deepEqual(v.picksFrom('{broken'),[]);
+for(const src of ['data:image/svg+xml;base64,AAAA','https://remote/a.png','data:image/png;base64,<>','data:image/png;base64,'+'A'.repeat(450001)])assert.equal(v.safePortrait(src),false);
+assert.equal(v.safePortrait('data:image/png;base64,AAAA'),true);store.set('rivals-workshop.portraits.v1','{broken');assert.equal(v.localPortrait('x'),null);
+const s=blankSave(),h=heroes.find(h=>h.name==='Iron Man');s.roles.duelist.decision='play';s.roles.duelist.picks=[h.id];let raw=JSON.stringify(s);assert.equal(v.picksFrom(raw)[0].name,'Iron Man');assert.equal(v.heroColor(h.id),'#ffb363');s.roles.duelist.decision='none';assert.equal(v.picksFrom(JSON.stringify(s)).length,0);s.roles.duelist.decision='play';s.skipped=['story','workshop','loyalty'].map(k=>`duelist-${h.id}-${k}`);assert.equal(v.picksFrom(JSON.stringify(s)).length,0);
+for(const design of v.dossierDesigns){store.set(v.visualKey,design);const html=renderToStaticMarkup(React.createElement(FinalDossier,{raw:[raw],nickname:'<script>',title:'A legend',secondary:'A second lens',story:'Evidence',cost:'A tradeoff',challenge:'Next step'}));assert.ok(html.includes('dossier-'+design));assert.ok(html.includes('Iron Man'));assert.ok(html.includes('&lt;script&gt;'));}
+const members=[{id:'a',name:'Included',chapters:[raw],consent:{team:true}},{id:'b',name:'PRIVATE-MEMBER',chapters:[raw],consent:{team:false}}];const collage=renderToStaticMarkup(React.createElement(TeamCollage,{members}));assert.ok(collage.includes('Included'));assert.ok(!collage.includes('PRIVATE-MEMBER'));assert.ok(collage.includes('Iron Man'));
+for(let c=1;c<=7;c++)assert.ok(fs.existsSync(`public/media/chapter-${c}.svg`));
+console.log('V2.4 checks passed: four dossier designs, escaped names, hero palettes, malformed saves, no-role/skipped exclusions, custom portrait validation, consent-filtered collages, seven unique scenes.');

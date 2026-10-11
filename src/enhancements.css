@@ -1,0 +1,7 @@
+.writing-assist,.creative-titles,.song-card{margin:1rem 0;padding:1rem;border:1px solid #807489;border-radius:12px;max-width:100%;min-width:0}
+.writing-assist summary{cursor:pointer;font-weight:600}.writing-assist button,.creative-titles button,.song-card button{margin:.4rem .4rem .4rem 0;min-height:44px}
+.writing-assist input:not([type=checkbox]),.writing-assist select,.creative-titles input{display:block;width:100%;max-width:100%;box-sizing:border-box;margin:.5rem 0;padding:.6rem}
+.writing-diff{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.writing-diff section{min-width:0}.writing-assist pre,.creative-titles pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:24rem;overflow:auto}
+.song-card img{display:block;max-width:100%;width:320px;height:auto;border-radius:8px}.song-card a{overflow-wrap:anywhere}button:focus-visible,summary:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #ffc863;outline-offset:3px}
+.writing-diff del{color:#ffd6dc;background:#522d39}.writing-diff ins{color:#d5ffe4;background:#214b36}.creative-titles fieldset label{display:inline-flex;align-items:center;gap:.35rem;min-height:44px;margin-right:1rem}.creative-titles input[type=checkbox]{width:18px;height:18px}.writing-assist summary{min-height:44px;display:list-item;align-content:center}
+@media(max-width:600px){.writing-diff{grid-template-columns:1fr}.writing-assist,.creative-titles,.song-card{padding:.75rem}.studio-actions{flex-wrap:wrap}}

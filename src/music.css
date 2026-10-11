@@ -1,0 +1,4 @@
+.music-tags{display:flex;flex-wrap:wrap;gap:14px;border:1px solid #555;padding:16px;margin:20px 0}.music-tags label{display:flex;align-items:center;gap:8px}.music-tags input{width:18px;height:18px}.music-text{white-space:pre-wrap;overflow-wrap:anywhere}.music-shell .ch-field input{max-width:100%}
+.music-shell .ch-field input:not([type=file]){display:block;width:100%;margin-top:12px;background:#10141e;border:1px solid #596479;color:#f1f2f5;padding:14px;font-size:16px}.music-shell .ch-field input:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
+
+
